@@ -61,16 +61,16 @@ ExportScript.ConfigEveryFrameArguments =
 	[232] = "%.1f",	--D2M
 	[233] = "%.1f",	--LL
 
--- Autopilot Controls/Indicator Lights
-	[267] = "%.1f",	--button P light
-	[268] = "%.1f",	--button MIS light
+-- PPA lights
+	[267] = "%.1f",	--button 530 P light
+	[268] = "%.1f",	--button 530 MIS light
 	[270] = "%.1f",	--button AUT light
 	[271] = "%.1f",	--button MAN light
-	[273] = "%.1f",	--button MAG-P light
-	[274] = "%.1f",	--button MAG-MAG light
+	[273] = "%.1f",	--button MAGIC P light
+	[274] = "%.1f",	--button MAGIC MAG light
 
 	[280] = "%.1f",	--button TOT light
-	[281] = "%.1f",	--button PAP light
+	[281] = "%.1f",	--button PAR light
 
 -- Weapon panel
 	[236] = "%.1f",	--button1 S 001 light
@@ -78,6 +78,9 @@ ExportScript.ConfigEveryFrameArguments =
 	[240] = "%.1f",	--button3 S 001 light
 	[242] = "%.1f",	--button4 S 001 light
 	[244] = "%.1f",	--button5 S 001 light
+
+	[246] = "%.1f",	-- PCA CAS S light
+	[247] = "%.1f",	-- PCA CAS P light
 
 	[251] = "%.1f",	--button1 S 002 light
 	[252] = "%.1f",	--button1 P 002 light
@@ -89,9 +92,6 @@ ExportScript.ConfigEveryFrameArguments =
 	[261] = "%.1f",	--button4 P 002 light
 	[263] = "%.1f",	--button5 S 002 light
 	[264] = "%.1f",	--button5 P 002 light
-
-	[246] = "%.1f",	--button KL1 light
-	[247] = "%.1f",	--button KL2 light
 
 	[321] = "%.1f",	--ADI ILS light
 	[374] = "%.1f", --Fire light 1
@@ -432,8 +432,8 @@ ExportScript.ConfigArguments =
 	[192] = "%.4f",	--Radar Altimeter Minimum Altitude Selector
 	[213] = "%.1f",	--Radar Interception Switch
 	[214] = "%.1f",	--Radar N Parameter Switch
-	[215] = "%.1f",	--Radar P Parameter Switch
-	[216] = "%.1f",	--Radar B Parameter Switch
+	[215] = "%.1f",	--Radar ρ (Rho) Parameter Switch
+	[216] = "%.1f",	--Radar θ (Theta) Parameter Switch
 	[217] = "%.1f",	--Radar C Parameter Switch
 	[218] = "%.1f",	--Radar Z Parameter Switch
 	[219] = "%.1f",	--Radar M Parameter Switch
