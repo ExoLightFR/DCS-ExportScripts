@@ -774,6 +774,8 @@ function ExportScript.ProcessIkarusDCSConfigLowImportance(mainPanelDevice)
 	local AP_green = mainPanelDevice:get_argument_value(284) == 1.0
 	ExportScript.Tools.SendData(2101, get_vertical_split_indicator_text(AP_yellow, AP_green))
 
+	ExportScript.Tools.SendData(2102, get_landing_conf_panel_text(mainPanelDevice))
+
 	-- ECM Mode Switch
 	-- [194] = "%.1f",	--ECM Box Mode Switch
 	local lECM_On = (mainPanelDevice:get_argument_value(194) > 0.0 and true or false)
@@ -1542,4 +1544,28 @@ function get_vertical_split_indicator_text(first_light, second_light)
 	return stringOutput
 end
 
--- end script
+-- Inspired by whoever did this for the F-15E export script. Represents the landing configuration
+-- panel lights, except CROSS & SPAD because they're practically useless.
+-- From top to bottom: airbrakes (AF), nose wheel steering (DIRAV), brakes (FREIN), & gear lights.
+-- When lit steadily, the red square represents unlocked gear trapdoors. When blinking, it represents
+-- the landing gear handle warning light.
+function get_landing_conf_panel_text(dev)
+	-- All booleans, represent whether light is ON or OFF.
+	local A, F				= (dev:get_argument_value(410) == 1), (dev:get_argument_value(411) == 1)
+	local nws, brakes		= (dev:get_argument_value(412) > 0), (dev:get_argument_value(413) > 0)
+	local unlock, handle	= (dev:get_argument_value(416) > 0), (dev:get_argument_value(405) == 0)
+	local left, right		= (dev:get_argument_value(417) > 0), (dev:get_argument_value(419) > 0)
+	local center			= dev:get_argument_value(418) > 0
+
+	local red_square = unlock and "🟥" or "⬛"
+	if not unlock then -- When gear doors are locked, this represents the gear handle light
+		red_square = handle and "🟥" or "⬛"
+	end
+
+	local output_str		= (A and "🟧" or "⬛").." "..(F and "🟧" or "⬛").."\n"
+	output_str = output_str.. (nws and "🟦" or "⬛").."BIP"..(brakes and "🟧" or "⬛").."\n"
+	output_str = output_str.. (left and "🟢" or "⚫")..red_square..(right and "🟢" or "⚫").."\n"
+	output_str = output_str.. (center and "🟢" or "⚫")
+
+	return output_str
+end
