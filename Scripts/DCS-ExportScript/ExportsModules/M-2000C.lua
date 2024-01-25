@@ -767,12 +767,12 @@ function ExportScript.ProcessIkarusDCSConfigLowImportance(mainPanelDevice)
 	-- Master Caution/Warning. Uses unicode characters to mask relevant part of the icon if it's off.
 	local caution_on = mainPanelDevice:get_argument_value(199) == 1.0
 	local warning_on = mainPanelDevice:get_argument_value(200) == 1.0
-	ExportScript.Tools.SendData(2100, text_for_split_indicator_light(caution_on, warning_on))
+	ExportScript.Tools.SendData(2100, get_horizontal_split_indicator_text(caution_on, warning_on))
 
 	-- Autopilot master lamp. Uses unicode characters to mask relevant part of the icon if it's off.
 	local AP_yellow = mainPanelDevice:get_argument_value(283) == 1.0
 	local AP_green = mainPanelDevice:get_argument_value(284) == 1.0
-	ExportScript.Tools.SendData(2101, text_for_split_indicator_light(AP_yellow, AP_green))
+	ExportScript.Tools.SendData(2101, get_vertical_split_indicator_text(AP_yellow, AP_green))
 
 	-- ECM Mode Switch
 	-- [194] = "%.1f",	--ECM Box Mode Switch
@@ -1505,21 +1505,40 @@ function ExportScript.ProcessDACConfigLowImportance(mainPanelDevice)
 end
 
 -- Uses unicode characters to mask part of a streamdeck icon with text.
--- Make sure that streamdeck text is in Courier New, 9pts, centered.
-function text_for_split_indicator_light(first_light, second_light)
+-- Make sure that streamdeck text is in Courier New, 9pts, centered, black.
+function get_horizontal_split_indicator_text(first_light, second_light)
 	local stringOutput = ""
 
 	if first_light == true then
-		stringOutput = stringOutput .. "\n \n"
+		stringOutput = "\n \n"
 	else
-		stringOutput = stringOutput .. "██████████\n▀▀▀▀▀▀▀▀▀▀\n"
+		stringOutput = "███████\n▀▀▀▀▀▀▀\n"
 	end
 	if second_light == true then
 		stringOutput = stringOutput .. " \n \n\n"
 	else
-		stringOutput = stringOutput .. "▄▄▄▄▄▄▄▄▄▄\n██████████\n"
+		stringOutput = stringOutput .. "▄▄▄▄▄▄▄\n███████\n"
 	end
 
+	return stringOutput
+end
+
+-- Uses unicode characters to mask part of a streamdeck icon with text.
+-- Make sure that streamdeck text is in Courier New, 9pts, centered, black.
+function get_vertical_split_indicator_text(first_light, second_light)
+	--[[ Makes this pattern:
+	███   ███
+	███   ███
+	███   ███
+	███   ███
+	]]
+	local column_1 = first_light and "     " or "███"
+	local column_2 = second_light and "     " or "███"
+	local stringOutput = ""
+
+	for i = 1, 4 do
+		stringOutput = stringOutput..column_1.."   "..column_2.."\n"
+	end
 	return stringOutput
 end
 
